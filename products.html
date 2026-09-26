@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+
+.card {
+  position: relative;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 20px;
+  overflow: hidden;
+  transition: 0.4s;
+  border: 1px solid rgba(0,255,255,0.2);
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 25px cyan;
+}
+
+.img-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.img-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+.img-wrapper img {
+  width: 100%;
+  transition: 0.4s;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.latest-badge {
+  background: rgba(0,255,255,0.15);
+  color: cyan;
+  box-shadow: 0 0 15px cyan;
+}
+
+.best-badge {
+  background: rgba(255,0,255,0.15);
+  color: magenta;
+  box-shadow: 0 0 15px magenta;
+}
+
+.dlc-badge {
+  background: rgba(255,140,0,0.2);
+  color: orange;
+  box-shadow: 0 0 15px orange;
+}
+
+.btn {
+  background: linear-gradient(90deg, cyan, magenta);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  box-shadow: 0 0 20px cyan;
+}
+
+</style>
+  <style>
+
+/* ===== Animated Background ===== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at 20% 20%, #0f2027, #090a1a 40%, #000 90%);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Floating animated particles */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,255,255,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: moveParticles 40s linear infinite;
+  z-index: -1;
+}
+
+@keyframes moveParticles {
+  from { transform: translate(0,0); }
+  to { transform: translate(-200px,-200px); }
+}
+
+/* ===== Section Title Animation ===== */
+.section-title {
+  font-size: 32px;
+  background: linear-gradient(90deg, cyan, magenta, cyan);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 4s linear infinite;
+}
+
+@keyframes gradientMove {
+  to { background-position: 200% center; }
+}
+
+/* ===== Game Card ===== */
+.game-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  transition: 0.4s;
+  overflow: hidden;
+  border: 1px solid rgba(0,255,255,0.2);
+}
+
+/* Animated glowing border */
+.game-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  background: linear-gradient(45deg, cyan, magenta, cyan);
+  background-size: 300%;
+  animation: borderGlow 6s linear infinite;
+  z-index: -1;
+  filter: blur(15px);
+  opacity: 0;
+  transition: 0.4s;
+}
+
+.game-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes borderGlow {
+  0% { background-position: 0%; }
+  100% { background-position: 300%; }
+}
+
+/* 3D Hover Effect */
+.game-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 30px rgba(0,255,255,0.4);
+}
+
+/* ===== Badge Styling ===== */
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  animation: badgePulse 2s infinite alternate;
+}
+
+.latest-badge {
+  background: rgba(0,255,255,0.15);
+  color: cyan;
+  box-shadow: 0 0 15px cyan;
+}
+
+.best-badge {
+  background: rgba(255,0,255,0.15);
+  color: magenta;
+  box-shadow: 0 0 15px magenta;
+}
+
+.dlc-badge {
+  background: rgba(255,140,0,0.15);
+  color: orange;
+  box-shadow: 0 0 15px orange;
+}
+
+@keyframes badgePulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+/* ===== Buy Button ===== */
+.buy-btn {
+  background: linear-gradient(90deg, cyan, magenta);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.buy-btn:hover {
+  box-shadow: 0 0 20px cyan;
+  transform: scale(1.05);
+}
+
+/* ===== Fade In Animation ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+
+  <meta charset="UTF-8">
+  <title>GameStoB — Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">Game<span>StoB</span></div>
+  <div class="nav-wrap">
+  <button class="menu-toggle">☰</button>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html" class="active">Products</a>
+    <a href="about.html">About Us</a>
+    <a href="location.html">Location</a>
+    <a href="purchase.html">Purchase</a>
+  </nav>
+</header>
+
+<main>
+<section class="section">
+  <h2>Game Catalog</h2>
+
+  <!-- FILTER -->
+  <div class="filter-bar">
+
+  <select id="genreFilter" onchange="filterGames()">
+    <option value="All">All Genres</option>
+    <option value="RPG">RPG</option>
+    <option value="Action">Action</option>
+    <option value="FPS">FPS</option>
+    <option value="Sports">Sports</option>
+    <option value="Racing">Racing</option>
+  </select>
+
+  <select id="platformFilter" onchange="filterGames()">
+    <option value="All">All Platforms</option>
+    <option value="PC">PC</option>
+    <option value="PS5">PS5</option>
+    <option value="XBOX">XBOX</option>
+  </select>
+
+</div>
+
+ <div class="card-container">
+
+<!-- ================= LATEST (7) ================= -->
+
+<div class="card fade-card" data-category="Latest" data-genre="RPG" data-platform="PC,PS5,XBOX" data-name="Black Myth: Wukong" data-price="59.99">
+  <div class="particle-glow"></div>
+  <span class="badge latest-badge">LATEST</span>
+  <div class="img-wrapper">
+    <img src="assets/blackmyth.jpg">
+  </div>
+  <div class="title">Black Myth: Wukong</div>
+  <div class="meta">RPG • PC / PS5 / XBOX</div>
+  <div class="price">$59.99</div>
+  <button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card fade-card" data-category="Latest" data-genre="RPG" data-platform="PS5" data-name="Final Fantasy XVI" data-price="69.99">
+  <div class="particle-glow"></div>
+  <span class="badge latest-badge">LATEST</span>
+  <div class="img-wrapper">
+    <img src="assets/ff16.jpg">
+  </div>
+  <div class="title">Final Fantasy XVI</div>
+  <div class="meta">RPG • PS5</div>
+  <div class="price">$69.99</div>
+  <button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card fade-card" data-category="Latest" data-genre="FPS" data-platform="PC,PS5,XBOX" data-name="Call of Duty MW III" data-price="69.99">
+  <div class="particle-glow"></div>
+  <span class="badge latest-badge">LATEST</span>
+  <div class="img-wrapper">
+    <img src="assets/codmw3.jpg">
+  </div>
+  <div class="title">Call of Duty MW III</div>
+  <div class="meta">FPS • PC / PS5 / XBOX</div>
+  <div class="price">$69.99</div>
+  <button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card fade-card" data-category="Latest" data-genre="Action" data-platform="PC,PS5,XBOX" data-name="Assassin’s Creed Mirage" data-price="49.99">
+  <div class="particle-glow"></div>
+  <span class="badge latest-badge">LATEST</span>
+  <div class="img-wrapper">
+    <img src="assets/acmirage.jpg">
+  </div>
+  <div class="title">Assassin’s Creed Mirage</div>
+  <div class="meta">Action • PC / PS5 / XBOX</div>
+  <div class="price">$49.99</div>
+  <button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card fade-card" data-category="Latest" data-genre="Action" data-platform="PC,PS5,XBOX" data-name="Resident Evil 4 Remake" data-price="49.99">
+  <div class="particle-glow"></div>
+  <span class="badge latest-badge">LATEST</span>
+  <div class="img-wrapper">
+    <img src="assets/re4remake.jpg">
+  </div>
+  <div class="title">Resident Evil 4 Remake</div>
+  <div class="meta">Action • PC / PS5 / XBOX</div>
+  <div class="price">$49.99</div>
+  <button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card fade-card" data-category="Latest" data-genre="Sports" data-platform="PC,PS5,XBOX" data-name="EA Sports FC 24" data-price="59.99">
+  <div class="particle-glow"></div>
+  <span class="badge latest-badge">LATEST</span>
+  <div class="img-wrapper">
+    <img src="assets/fc24.jpg">
+  </div>
+  <div class="title">EA Sports FC 24</div>
+  <div class="meta">Sports • PC / PS5 / XBOX</div>
+  <div class="price">$59.99</div>
+  <button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card fade-card" data-category="Latest" data-genre="Sports" data-platform="PC,PS5,XBOX" data-name="NBA 2K24" data-price="59.99">
+  <div class="particle-glow"></div>
+  <span class="badge latest-badge">LATEST</span>
+  <div class="img-wrapper">
+    <img src="assets/nba2k24.jpg">
+  </div>
+  <div class="title">NBA 2K24</div>
+  <div class="meta">Sports • PC / PS5 / XBOX</div>
+  <div class="price">$59.99</div>
+  <button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+
+<!-- ================= BEST SELLER (10) ================= -->
+
+<div class="card" data-category="BestSeller" data-genre="Action" data-platform="PC,PS5,XBOX" data-name="Grand Theft Auto V" data-price="29.99">
+<div class="particle-glow"></div>
+  <span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/gta5.jpg">
+</div>
+<div class="title">Grand Theft Auto V</div>
+<div class="meta">Action • PC / PS5 / XBOX</div>
+<div class="price">$29.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="Action" data-platform="PC,PS5,XBOX" data-name="Red Dead Redemption 2" data-price="39.99">
+<div class="particle-glow"></div>
+  <span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/reddead2.jpg">
+</div>
+<div class="title">Red Dead Redemption 2</div>
+<div class="meta">Action • PC / PS5 / XBOX</div>
+<div class="price">$39.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="RPG" data-platform="PC,PS5,XBOX" data-name="Elden Ring" data-price="59.99">
+<div class="particle-glow"></div>
+  <span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/eldenring.jpg">
+</div>
+<div class="title">Elden Ring</div>
+<div class="meta">RPG • PC / PS5 / XBOX</div>
+<div class="price">$59.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="RPG" data-platform="PC" data-name="Baldur's Gate 3" data-price="59.99">
+<div class="particle-glow"></div>
+  <span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/baldur3.jpg">
+</div>
+<div class="title">Baldur's Gate 3</div>
+<div class="meta">RPG • PC</div>
+<div class="price">$59.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="RPG" data-platform="PC,PS5,XBOX" data-name="The Witcher 3" data-price="29.99">
+<div class="particle-glow"></div>
+  <span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/witcher3.jpg">
+</div>
+<div class="title">The Witcher 3</div>
+<div class="meta">RPG • PC / PS5 / XBOX</div>
+<div class="price">$29.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="RPG" data-platform="PC,PS5,XBOX" data-name="Cyberpunk 2077" data-price="39.99">
+<div class="particle-glow"></div>
+  <span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/cyberpunk.jpg">
+</div>
+<div class="title">Cyberpunk 2077</div>
+<div class="meta">RPG • PC / PS5 / XBOX</div>
+<div class="price">$39.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="Racing" data-platform="PC,XBOX" data-name="Forza Horizon 5" data-price="49.99">
+<div class="particle-glow"></div>
+<span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/forza5.jpg">
+</div>
+<div class="title">Forza Horizon 5</div>
+<div class="meta">Racing • PC / XBOX</div>
+<div class="price">$49.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="Sandbox" data-platform="PC,PS5,XBOX,Switch" data-name="Minecraft" data-price="26.95">
+<div class="particle-glow"></div>
+<span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/minecraft.jpg">
+</div>
+<div class="title">Minecraft</div>
+<div class="meta">Sandbox • PC / PS5 / XBOX / Switch</div>
+<div class="price">$26.95</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="FPS" data-platform="PC,PS5,XBOX" data-name="Fortnite" data-price="0">
+<div class="particle-glow"></div>
+<span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/fortnite.jpg">
+</div>
+<div class="title">Fortnite</div>
+<div class="meta">FPS • PC / PS5 / XBOX</div>
+<div class="price">Free</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card" data-category="BestSeller" data-genre="FPS" data-platform="PC,PS5,XBOX" data-name="Apex Legends" data-price="0">
+<div class="particle-glow"></div>
+<span class="badge bestseller">BEST SELLER</span>
+<div class="img-wrapper">
+<img src="assets/apex.jpg">
+</div>
+<div class="title">Apex Legends</div>
+<div class="meta">FPS • PC / PS5 / XBOX</div>
+<div class="price">Free</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+
+<!-- ================= DLC (6) ================= -->
+
+<div class="card dlc-card" data-category="DLC" data-genre="RPG" data-platform="PC,PS5,XBOX" data-name="Cyberpunk 2077: Phantom Liberty" data-price="29.99">
+<div class="particle-glow"></div>
+<span class="badge dlc">DLC</span>
+<div class="img-wrapper">
+<img src="assets/cyberpunk-dlc.jpg">
+</div>
+<div class="title">Cyberpunk 2077: Phantom Liberty</div>
+<div class="meta">Expansion • PC / PS5 / XBOX</div>
+<div class="price">$29.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card dlc-card" data-category="DLC" data-genre="RPG" data-platform="PC,PS5,XBOX" data-name="Elden Ring: Shadow of the Erdtree" data-price="39.99">
+<div class="particle-glow"></div>
+<span class="badge dlc">DLC</span>
+<div class="img-wrapper">
+<img src="assets/eldenring-dlc.jpg">
+</div>
+<div class="title">Elden Ring: Shadow of the Erdtree</div>
+<div class="meta">Expansion • PC / PS5 / XBOX</div>
+<div class="price">$39.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card dlc-card" data-category="DLC" data-genre="Action" data-platform="PC,PS5,XBOX" data-name="Resident Evil 4: Separate Ways" data-price="9.99">
+<div class="particle-glow"></div>
+<span class="badge dlc">DLC</span>
+<div class="img-wrapper">
+<img src="assets/re4-dlc.jpg">
+</div>
+<div class="title">Resident Evil 4: Separate Ways</div>
+<div class="meta">Expansion • PC / PS5 / XBOX</div>
+<div class="price">$9.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card dlc-card" data-category="DLC" data-genre="Action" data-platform="PC,PS5,XBOX" data-name="Assassin’s Creed Valhalla: Dawn of Ragnarok" data-price="39.99">
+<div class="particle-glow"></div>
+<span class="badge dlc">DLC</span>
+<div class="img-wrapper"><
+<img src="assets/valhalla-dlc.jpg">
+</div>
+<div class="title">AC Valhalla: Dawn of Ragnarok</div>
+<div class="meta">Expansion • PC / PS5 / XBOX</div>
+<div class="price">$39.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card dlc-card" data-category="DLC" data-genre="Action" data-platform="PC,PS5,XBOX" data-name="GTA Online: The Chop Shop" data-price="0">
+<div class="particle-glow"></div>
+<span class="badge dlc">DLC</span>
+<div class="img-wrapper">
+<img src="assets/gtaonline.jpg">
+</div>
+<div class="title">GTA Online: The Chop Shop</div>
+<div class="meta">Expansion • PC / PS5 / XBOX</div>
+<div class="price">Free</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+<div class="card dlc-card" data-category="DLC" data-genre="Racing" data-platform="PC,XBOX" data-name="Forza Horizon 5: Hot Wheels" data-price="19.99">
+<div class="particle-glow"></div>
+<span class="badge dlc">DLC</span>
+<div class="img-wrapper">
+<img src="assets/forza-dlc.jpg">
+</div>
+<div class="title">Forza Horizon 5: Hot Wheels</div>
+<div class="meta">Expansion • PC / XBOX</div>
+<div class="price">$19.99</div>
+<button class="btn buy-btn" onclick="goPurchase(this)">Buy Now</button>
+</div>
+
+</div>
+</section>
+</main>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-brand">
+      <div class="logo">Game<span style="opacity:.92">StoB</span></div>
+      <p>Your trusted gaming retail partner since 2015. We offer the latest games, consoles, accessories and official DLC/expansions with fast service.</p>
+
+      <div class="social-row">
+        <a class="social-btn" href="#" aria-label="facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 3h3v4h-3v14h-4V7H9V3h3V1.8C12 0.8 12.9 0 14 0h1v3z" fill="currentColor"/></svg></a>
+        <a class="social-btn" href="#" aria-label="twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M23 3a10.9 10.9 0 0 1-3 1 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" fill="currentColor"/></svg></a>
+        <a class="social-btn" href="#" aria-label="instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zM12 8.6A3.4 3.4 0 1 0 15.4 12 3.41 3.41 0 0 0 12 8.6zM18.4 6.2a1 1 0 1 1-1 1 1 1 0 0 1 1-1z" fill="currentColor"/></svg></a>
+        <a class="social-btn" href="#" aria-label="youtube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M23.5 6.2a3 3 0 0 0-2.12-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.57A3 3 0 0 0 .5 6.2C0 8.08 0 12 0 12s0 3.92.5 5.8a3 3 0 0 0 2.12 2.13C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.57a3 3 0 0 0 2.12-2.13c.5-1.88.5-5.8.5-5.8s0-3.92-.5-5.8zM10 15V9l5 3-5 3z" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+
+    <div class="footer-list">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="location.html">Location</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-list">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="footer-hr" />
+  <div class="footer-copy">© 2026 GameStoB. All rights reserved.</div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+    }
+  });
+});
+
+document.querySelectorAll(".game-card").forEach(card => {
+  card.classList.add("fade-in");
+  observer.observe(card);
+});
+</script>
+
+<script>
+function filterGames() {
+
+  const selectedGenre = document.getElementById("genreFilter").value;
+  const selectedPlatform = document.getElementById("platformFilter").value;
+
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+
+    const cardGenre = card.dataset.genre;
+    const cardPlatform = card.dataset.platform.toUpperCase();
+
+    const genreMatch =
+      selectedGenre === "All" || cardGenre === selectedGenre;
+
+    const platformMatch =
+      selectedPlatform === "All" ||
+      cardPlatform.includes(selectedPlatform.toUpperCase());
+
+    if (genreMatch && platformMatch) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+
+  });
+}
+</script>
+
+</body>
+</html>
